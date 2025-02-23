@@ -2,24 +2,23 @@
 const hre = require("hardhat");
 const signer = require("./setup");
 const safeMint = require("./safeMint");
+const sleep = require("./sleep");
 
 async function main() {
     /**
      * @dev make sure the first argument has the same name as your contract in the SoulBoundTest.sol file
      * @dev the second argument must be the message we want to set in the contract during the deployment process
      */
-    // const keys = JSON.parse(process.env.PRIVATE_KEY);
-    for (key of JSON.parse(process.env.PRIVATE_KEY)) {
-        console.log(key);
-        const signed = signer(key);
-        const contract = await hre.ethers.deployContract("SoulBoundTest", [`${signed.address}`]);
+    const signed = signer(process.env.PRIVATE_KEY);
+    const contract = await hre.ethers.deployContract("SoulBoundTest", [`${signed.address}`]);
 
-        await contract.waitForDeployment();
+    await contract.waitForDeployment();
 
-        console.log(`Monad contract deployed to ${contract.target}`);
+    console.log(`Monad contract deployed to ${contract.target} via address: ${signed.address}\n\n`);
 
-        await safeMint(signed, contract.target);
-    }
+    await safeMint(signed, contract.target);
+
+    await sleep(3);
 }
 
 //DEFAULT BY HARDHAT:
