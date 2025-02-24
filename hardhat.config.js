@@ -1,5 +1,6 @@
 require("@nomicfoundation/hardhat-toolbox");
 require('dotenv').config(); // Load environment variables
+require("colors");
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {

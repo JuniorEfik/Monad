@@ -8,12 +8,12 @@ module.exports = (async (signer, ADDRESS) => {
 
     try {
         // Call safeMint function
-        console.log(`Calling safeMint... for address: ${signer.address}\n\n`);
+        console.log(`Calling safeMint... for address: ${signer.address}\n\n`.magenta);
         const tx = await soulBoundTest.safeMint(signer.address, tokenURI);
         await tx.wait();
 
-        console.log(`Successfully minted SBT. Transaction hash: ${tx.hash}\n\n`);
+        console.log(`Successfully minted SBT. Transaction hash: ${tx.hash}\n\n`.green);
     } catch (error) {
-        console.error("\n\nError minting SBT:", error);
+        console.error("\n\nError minting SBT:".red, error);
     }
 });

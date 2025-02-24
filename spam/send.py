@@ -1,9 +1,9 @@
 import random
-from dotenv import load_dotenv
 from web3 import Web3
 from eth_account import Account
 from concurrent.futures import ThreadPoolExecutor
 from os import getenv
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -36,11 +36,11 @@ def get_gas_fee():
     }
 
 def prepare_transaction(to_address, amount, nonce, gas_fees):
-    print(f"📝 Preparing transaction to {to_address} for {amount} NEX...")
+    print(f"📝 Preparing transaction to {to_address} for {amount} Mon...")
     txn = {
         "to": to_address,
         "value": w3.to_wei(amount, "ether"),
-        "gas": 21000,  # Fixed gas limit cus we are sending native Nex not tokens
+        "gas": 21000,  # Fixed gas limit cus we are sending native Mon not tokens
         "maxFeePerGas": gas_fees["max_fee"],
         "maxPriorityFeePerGas": gas_fees["priority_fee"],
         "nonce": nonce,
@@ -84,7 +84,6 @@ def initiate():
         gas_fees = get_gas_fee()
         nonce = w3.eth.get_transaction_count(signer_address) 
         print(f"🔢 Initial nonce: {nonce}")
-
         transactions = []
         with ThreadPoolExecutor() as executor:
             futures = []
@@ -99,7 +98,6 @@ def initiate():
                         print(f"⚠️ Invalid address: {to_address}")
                 except ValueError as e:
                     print(f"⚠️ Invalid address: {to_address} | Error: {str(e)}")
-
             for future in futures:
                 transactions.append(future.result())
 
