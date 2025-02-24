@@ -6,7 +6,7 @@ read nn
 
 if [[ $nn =~ ^[0-9]+$ ]]; then
     for((i=1; i<=$nn; i++)); do
-        echo "Running iteration $nn"
+        echo "Running iteration $i"
         npm run deploy
     done
     echo "Completed"
