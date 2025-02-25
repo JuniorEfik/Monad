@@ -17,6 +17,4 @@ else
     source "$VENV_DIR/bin/activate"
 fi
 
-
-
 python3 spam/send.py

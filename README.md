@@ -11,7 +11,7 @@ cd Monad && nano .env
 ```
 ### Populate it with:
 * PRIVATE_KEY= # Your private key
-* TX= # no of transactions for batch sending
+* TX= # no of transactions for batch sending or deploying and minting. Do note that deploying contracts typically uses more gas cuz of the onchain overhead of storing it so be sure to have enough gas if you wan deploy lot of it.
 
 ### These ones should be copied and pasted accordingly into the previously created .env file
 ```bash

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-const hre = require("hardhat");
-const signer = require("./setup");
+const { ethers, artifacts } = require("hardhat");
+const wallet = require("./setup")(process.env.PRIVATE_KEY);
 const safeMint = require("./safeMint");
 const sleep = require("./sleep");
 
@@ -9,18 +9,18 @@ async function main() {
      * @dev make sure the first argument has the same name as your contract in the SoulBoundTest.sol file
      * @dev the second argument must be the message we want to set in the contract during the deployment process
      */
+    const { abi, bytecode } = await artifacts.readArtifact("SoulBoundTest");
+
     await require("./displayHeader")();
 
-    const signed = signer(process.env.PRIVATE_KEY);
-    const contract = await hre.ethers.deployContract("SoulBoundTest", [`${signed.address}`]);
+    for (let i = 0; i < process.env.TX; i++) {
+        const contract = await (new ethers.ContractFactory(abi, bytecode, wallet)).deploy(wallet.address);
+        console.log(`Monad contract ${i+1} deployed to ${await contract.getAddress()} via address: ${wallet.address}\n\n`.blue);
 
-    await contract.waitForDeployment();
+        await sleep(2.5);
 
-    console.log(`Monad contract deployed to ${contract.target} via address: ${signed.address}\n\n`.green);
-
-    await safeMint(signed, contract.target);
-
-    await sleep(1.5);
+        await safeMint(contract.safeMint, wallet);
+    }
 }
 
 //DEFAULT BY HARDHAT:
