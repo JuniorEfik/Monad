@@ -23,7 +23,7 @@ chainID="10143"
 ### Set each files to executable using the commands below:
 ```bash
 chmod +x batch_send.sh
-chmod +x deploy.sh 
+chmod +x mint.sh 
 ```
 
 # To batch send to random addresses, use command:
