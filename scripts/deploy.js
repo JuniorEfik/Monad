@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const { ethers, artifacts } = require("hardhat");
-const wallet = require("./setup")(process.env.PRIVATE_KEY);
+const { wallet, provider } = require("./setup")(process.env.PRIVATE_KEY);
 const safeMint = require("./safeMint");
 const sleep = require("./sleep");
 
@@ -14,12 +14,13 @@ async function main() {
     await require("./displayHeader")();
 
     for (let i = 0; i < process.env.TX; i++) {
-        const contract = await (new ethers.ContractFactory(abi, bytecode, wallet)).deploy(wallet.address);
-        console.log(`Monad contract ${i+1} deployed to ${await contract.getAddress()} via address: ${wallet.address}\n\n`.blue);
+        const contract = await(await (new ethers.ContractFactory(abi, bytecode, wallet)).deploy(wallet.address, {
+            nounce: (await provider.getTransactionCount(wallet.address)) + 1
+        })).waitForDeployment();
 
-        await sleep(2.5);
+        console.log(`${(await provider.getNetwork()).name} contract ${i + 1} deployed to ${await contract.getAddress()} via address: ${wallet.address}\n\n`.blue);
 
-        await safeMint(contract.safeMint, wallet);
+        await safeMint(contract.safeMint, wallet, provider);
     }
 }
 
