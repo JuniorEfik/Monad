@@ -1,6 +1,12 @@
 import requests
 from random import randint
 from pprint import pprint
+from dotenv import load_dotenv
+from os import getenv
+
+load_dotenv()
+
+BEARER = getenv("BEARER") 
 
 questions = [
     "What do you wear on your head when riding a bike?",
@@ -58,7 +64,7 @@ url = "https://api.hyperbolic.xyz/v1/chat/completions"
 
 headers = {
     "Content-Type": "application/json",
-    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqdW5pb3Jhbmlla2FuMUBnbWFpbC5jb20iLCJpYXQiOjE3Mzg0ODM0MTZ9.e0inx0OkvO9N1B_HOq6GSSuICawuqa2JQTdcTQ_sLfs"
+    "Authorization": BEARER
 }
 
 models = {
