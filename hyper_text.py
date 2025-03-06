@@ -107,5 +107,6 @@ if choice != 1 and choice != 2:
     exit(1)
 
 while True:
+    pprint(get_data(choice))
     response = requests.post(url, headers=headers, json=get_data(choice))
     print(f"Answer: {response.json()["choices"][0]["message"]["content"]}\n\n")
