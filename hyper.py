@@ -102,4 +102,4 @@ if choice != 1 and choice != 2:
 
 while True:
     response = requests.post(url, headers=headers, json=get_data(choice))
-    print(f"Answer: {response.json()["choices"][0]["message"]["content"]}")
+    print(f"Answer: {response.json()["choices"][0]["message"]["content"]}\n\n")
